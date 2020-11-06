@@ -1,0 +1,6 @@
+quizmod.check=Check Answer
+quizmod.correct=Correct answer!
+quizmod.incorrect=Wrong answer... The correct answer(s) was/were: %s.
+quizmod.notification=A wild question has appeared! Click here to answer.
+quizmod.no_questions=No questions were found!
+quizmod.config_null=Config file is null! Use "/quizmod generate" to generate the config.

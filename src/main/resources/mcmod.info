@@ -1,0 +1,11 @@
+[
+  {
+    "modid": "quizmod",
+    "name": "QuizMod",
+    "version": "${version}",
+    "mcversion": "1.8.9",
+    "authorList": [
+      "UserTeemu"
+    ]
+  }
+]
