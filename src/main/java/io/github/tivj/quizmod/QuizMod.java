@@ -3,8 +3,10 @@ package io.github.tivj.quizmod;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.tivj.quizmod.commands.QuizModCommand;
+import io.github.tivj.quizmod.answer.Answer;
+import io.github.tivj.quizmod.management.AnswerSerializer;
+import io.github.tivj.quizmod.management.QuizModConfig;
 import io.github.tivj.quizmod.question.Question;
-import io.github.tivj.quizmod.question.QuestionSerializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentTranslation;
@@ -13,7 +15,7 @@ import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.commons.io.FileUtils;
@@ -34,8 +36,9 @@ public class QuizMod {
 
     @Mod.Instance(MODID)
     public static QuizMod INSTANCE;
-    public static Gson gson = new GsonBuilder().registerTypeAdapter(Question.class, new QuestionSerializer()).create();
+    public static Gson gson = new GsonBuilder().registerTypeAdapter(Answer.class, new AnswerSerializer()).setPrettyPrinting().create();
 
+    private File questionsFile = null;
     public QuizModConfig config;
     public int ticksUntilNextQuestion = -1;
 
@@ -49,13 +52,18 @@ public class QuizMod {
     }
 
     @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-        loadQuestions();
+    public void preInit(FMLPreInitializationEvent event) {
+        questionsFile = new File(event.getModConfigurationDirectory(), "quizmod-questions.json");
+        try {
+            loadQuestions();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            LOGGER.warn("Could not load questions during startup!");
+        }
     }
 
     public void loadQuestions() {
-        File questionsFile = new File(Minecraft.getMinecraft().mcDataDir, "quizmod-questions.json");
-        if (questionsFile.exists() && questionsFile.canRead()) {
+        if (questionsFile != null && questionsFile.exists() && questionsFile.canRead()) {
             String questionsFileContents;
             try {
                 questionsFileContents = FileUtils.readFileToString(questionsFile, StandardCharsets.UTF_8);
@@ -73,11 +81,11 @@ public class QuizMod {
 
     public boolean generateConfig() {
         if (config == null) this.config = new QuizModConfig();
-        File questionsFile = new File(Minecraft.getMinecraft().mcDataDir, "quizmod-questions.json");
+
 
         if (!questionsFile.exists()) {
             try {
-                questionsFile.createNewFile();
+                if (!questionsFile.createNewFile()) LOGGER.warn("No error was thrown, but questionsFile#createNewFile() returned false.");
             } catch (IOException e) {
                 e.printStackTrace();
                 LOGGER.warn("Could not create config file!");
@@ -103,9 +111,13 @@ public class QuizMod {
     }
 
     public void recalculateTimer() {
-        if (this.config == null || this.config.maxTicksUntilQuestion <= this.config.minTicksUntilQuestion) return;
-        if (this.config.enabled) this.ticksUntilNextQuestion = new Random().nextInt(this.config.maxTicksUntilQuestion - this.config.minTicksUntilQuestion) + this.config.minTicksUntilQuestion;
-        else this.ticksUntilNextQuestion = -1;
+        if (this.config != null && this.config.enabled && this.config.maxTicksUntilReminder > 0 && this.config.minTicksUntilReminder > 0) {
+            if (this.config.maxTicksUntilReminder == this.config.minTicksUntilReminder)
+                this.ticksUntilNextQuestion = this.config.maxTicksUntilReminder;
+            else if (this.config.maxTicksUntilReminder > this.config.minTicksUntilReminder)
+                this.ticksUntilNextQuestion = new Random().nextInt(this.config.maxTicksUntilReminder - this.config.minTicksUntilReminder) + this.config.minTicksUntilReminder;
+        }
+        this.ticksUntilNextQuestion = -1;
     }
 
     @SubscribeEvent
@@ -133,10 +145,10 @@ public class QuizMod {
 
     public void displayQuiz() {
         int questions = 0;
-        for (Question question : this.config.questions) if (question.canBeAsked()) questions++;
+        for (Question question : this.config.questions) if (question.canBeAsked) questions++;
         int random = new Random().nextInt(questions);
         for (Question question : this.config.questions) {
-            if (!question.canBeAsked()) continue;
+            if (!question.canBeAsked) continue;
             if (random == 0) {
                 Minecraft.getMinecraft().displayGuiScreen(new GuiQuizScreen(question));
                 return;

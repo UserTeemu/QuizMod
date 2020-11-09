@@ -1,6 +1,9 @@
 package io.github.tivj.quizmod.commands;
 
 import io.github.tivj.quizmod.QuizMod;
+import io.github.tivj.quizmod.management.QuizModConfig;
+import io.github.tivj.quizmod.answer.LiteralAnswer;
+import io.github.tivj.quizmod.answer.RegexAnswer;
 import io.github.tivj.quizmod.question.Question;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -16,7 +19,7 @@ public class QuizModCommand extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/quizmod (optional arguments: <on>, <off>)";
+        return "/quizmod (<on>, <off>, <load>, <save>) or (<canask>, <dontask> + question's name)";
     }
 
     @Override
@@ -26,8 +29,9 @@ public class QuizModCommand extends CommandBase {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        if (args.length == 1 && args[0].equalsIgnoreCase("reload")) QuizMod.INSTANCE.loadQuestions();
-        else if (args.length == 1 && args[0].equalsIgnoreCase("generate")) QuizMod.INSTANCE.generateConfig();
+        if (args.length == 1 && args[0].equalsIgnoreCase("load")) QuizMod.INSTANCE.loadQuestions();
+        else if (args.length == 1 && args[0].equalsIgnoreCase("save")) QuizMod.INSTANCE.generateConfig();
+        else if (args.length == 1 && args[0].equalsIgnoreCase("testconfig")) createTestConfig();
         else if (QuizMod.INSTANCE.config != null) {
             if (args.length == 0) {
                 if (QuizMod.INSTANCE.config.questions.size() == 0)
@@ -48,10 +52,56 @@ public class QuizModCommand extends CommandBase {
                     query.setLength(query.length() - 1);
 
                     for (Question q : QuizMod.INSTANCE.config.questions) {
-                        if (q.getQuestion().contains(query.toString())) q.setCanBeAsked(canAsk);
+                        if (q.getQuestion().contains(query.toString())) q.canBeAsked = canAsk;
                     }
                 }
             }
         } else Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(new ChatComponentText(I18n.format("quizmod.config_null")));
+    }
+
+    private void createTestConfig() { // creates an example config
+        QuizMod.INSTANCE.config = new QuizModConfig();
+
+        QuizMod.INSTANCE.config.questions.add(
+            new Question(
+                "What determines if your answer to this question is correct?",
+                true,
+                new RegexAnswer(
+                    "a? (regex|regular expression)",
+                    "a regex or a regular expression"
+                )
+            )
+        );
+
+        QuizMod.INSTANCE.config.questions.add(
+            new Question(
+                "What is the capital of Finland?",
+                true,
+                // When there are 2 answer objects in the Question object (like now), both answers will have their own text input fields and both need to be answered.
+                new LiteralAnswer(
+                    "The name in Finnish and English",
+                    false,
+                    "Helsinki"
+                ),
+                new LiteralAnswer(
+                    "The name in Swedish",
+                    false,
+                    "Helsingfors"
+                )
+            )
+        );
+
+        QuizMod.INSTANCE.config.questions.add(
+            new Question(
+                "Did I spend too much time making this mod?",
+                true,
+                // When there are 2 answers in the same Answer object, both are correct answers.
+                new LiteralAnswer(
+                    "",
+                    false,
+                    "Yes", "Absolutely" // Both "yes" and "absolutely" are correct answers.
+                )
+            )
+        );
     }
 }

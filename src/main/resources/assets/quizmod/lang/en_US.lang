@@ -1,6 +1,11 @@
 quizmod.check=Check Answer
 quizmod.correct=Correct answer!
-quizmod.incorrect=Wrong answer... The correct answer(s) was/were: %s.
+quizmod.incorrect=Wrong answer... The correct answer was: %s
+quizmod.multianswer.correct=- %s was correct (%s)!
+quizmod.multianswer.incorrect=- %s (%s) was incorrect... Correct answer was: %s.
+quizmod.all_correct=All questions correct!
+quizmod.all_incorrect=All questions incorrect...
+quizmod.partly_incorrect=At least 1 was incorrect...
 quizmod.notification=A wild question has appeared! Click here to answer.
 quizmod.no_questions=No questions were found!
 quizmod.config_null=Config file is null! Use "/quizmod generate" to generate the config.

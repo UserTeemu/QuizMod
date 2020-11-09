@@ -1,4 +1,4 @@
-package io.github.tivj.quizmod;
+package io.github.tivj.quizmod.management;
 
 import io.github.tivj.quizmod.question.Question;
 
@@ -8,6 +8,7 @@ import java.util.Set;
 public class QuizModConfig {
     public Set<Question> questions = new HashSet<>();
     public boolean enabled = true;
-    public int maxTicksUntilQuestion = 1000 * 20;
-    public int minTicksUntilQuestion = 60 * 20;
+    public int maxTicksUntilReminder = 1000 * 20;
+    public int minTicksUntilReminder = 60 * 20;
+    public int maxAnswerInputLength = 256;
 }
