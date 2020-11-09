@@ -144,9 +144,11 @@ public class GuiQuizScreen extends GuiScreen {
                 }
 
                 component = new ChatComponentText(I18n.format(allAreCorrect ? "quizmod.all_correct" : allAreIncorrect ? "quizmod.all_incorrect" : "quizmod.partly_incorrect"));
-                for (IChatComponent sibling : siblings) {
-                    component.appendSibling(new ChatComponentText("\n"));
-                    component.appendSibling(sibling);
+                if (!allAreCorrect) {
+                    for (IChatComponent sibling : siblings) {
+                        component.appendSibling(new ChatComponentText("\n"));
+                        component.appendSibling(sibling);
+                    }
                 }
             }
         }
