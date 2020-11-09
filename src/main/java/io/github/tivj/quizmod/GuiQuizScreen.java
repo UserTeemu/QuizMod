@@ -26,7 +26,7 @@ public class GuiQuizScreen extends GuiScreen {
     }
 
     private int getWindowHeight() {
-        return 9 + margin + 22 + margin + 20;
+        return 9 + margin + (22 + margin) * question.getAnswers().size() + 20;
     }
 
     @Override
@@ -72,13 +72,19 @@ public class GuiQuizScreen extends GuiScreen {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        if (keyCode == 28 || keyCode == 156) {
-            boolean wasLastFieldFocused = false;
-            for (GuiTextField answerField : this.answerFields) {
-                if (wasLastFieldFocused) return;
-                if (answerField.isFocused()) wasLastFieldFocused = true;
+        if (keyCode == 28 || keyCode == 156 || keyCode == 15) {
+            // if last field is focused, check answer, else move focus to the next field
+            for (int i = 0; i < answerFields.size(); i++) {
+                GuiTextField answerField = answerFields.get(i);
+                if (answerField.isFocused()) {
+                    if (i == answerFields.size() - 1) checkAnswer();
+                    else {
+                        answerField.setFocused(false);
+                        answerFields.get(i+1).setFocused(true);
+                    }
+                    break;
+                }
             }
-            checkAnswer();
         } else if (keyCode == 1) {
             this.mc.displayGuiScreen(null);
         } else {
