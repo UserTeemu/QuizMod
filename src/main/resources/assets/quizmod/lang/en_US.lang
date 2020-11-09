@@ -9,3 +9,5 @@ quizmod.partly_incorrect=At least 1 was incorrect...
 quizmod.notification=A wild question has appeared! Click here to answer.
 quizmod.no_questions=No questions were found!
 quizmod.config_null=Config file is null! Use "/quizmod generate" to generate the config.
+quizmod.command_usage=/quizmod (<on>, <off>, <load>, <save>, <testconfig>) or (<canask>, <dontask> + question's name)
+quizmod.invalid_usage=Invalid command usage! Valid usage: %s

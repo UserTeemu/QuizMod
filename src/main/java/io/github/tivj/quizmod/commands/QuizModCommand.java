@@ -8,7 +8,9 @@ import io.github.tivj.quizmod.question.Question;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.WrongUsageException;
 import net.minecraft.util.ChatComponentText;
 
 public class QuizModCommand extends CommandBase {
@@ -19,7 +21,7 @@ public class QuizModCommand extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/quizmod (<on>, <off>, <load>, <save>) or (<canask>, <dontask> + question's name)";
+        return "quizmod.command_usage";
     }
 
     @Override
@@ -28,7 +30,7 @@ public class QuizModCommand extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) {
+    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         if (args.length == 1 && args[0].equalsIgnoreCase("load")) QuizMod.INSTANCE.loadQuestions();
         else if (args.length == 1 && args[0].equalsIgnoreCase("save")) QuizMod.INSTANCE.generateConfig();
         else if (args.length == 1 && args[0].equalsIgnoreCase("testconfig")) createTestConfig();
@@ -39,10 +41,12 @@ public class QuizModCommand extends CommandBase {
                 else {
                     QuizMod.scheduleTaskForNextTick(() -> QuizMod.INSTANCE.displayQuiz());
                 }
+                return;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off")) {
                     QuizMod.INSTANCE.config.enabled = args[0].equalsIgnoreCase("on");
                     QuizMod.INSTANCE.recalculateTimer();
+                    return;
                 }
             } else if (args.length == 2) {
                 boolean canAsk = args[0].equalsIgnoreCase("canask");
@@ -54,8 +58,10 @@ public class QuizModCommand extends CommandBase {
                     for (Question q : QuizMod.INSTANCE.config.questions) {
                         if (q.getQuestion().contains(query.toString())) q.canBeAsked = canAsk;
                     }
+                    return;
                 }
             }
+            throw new WrongUsageException("quizmod.invalid_usage", getCommandUsage(sender));
         } else Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(new ChatComponentText(I18n.format("quizmod.config_null")));
     }
 
