@@ -1,5 +1,6 @@
 package io.github.tivj.quizmod;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.tivj.quizmod.commands.QuizModCommand;
@@ -36,7 +37,7 @@ public class QuizMod {
 
     @Mod.Instance(MODID)
     public static QuizMod INSTANCE;
-    public static Gson gson = new GsonBuilder().registerTypeAdapter(Answer.class, new AnswerSerializer()).setPrettyPrinting().create();
+    public static Gson gson = new GsonBuilder().registerTypeAdapter(Answer.class, new AnswerSerializer()).setPrettyPrinting().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
     private File questionsFile = null;
     public QuizModConfig config;

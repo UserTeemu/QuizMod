@@ -16,7 +16,7 @@ public class AnswerSerializer implements JsonSerializer<Answer>, JsonDeserialize
         root.addProperty("type", answer.getClass().getSimpleName());
         root.add("answers", answer.getAnswersInJson());
         root.addProperty("placeholder", answer.getPlaceholder());
-        if (answer instanceof LiteralAnswer) root.addProperty("caseSensitive", ((LiteralAnswer) answer).isCaseSensitive());
+        if (answer instanceof LiteralAnswer) root.addProperty("case_sensitive", ((LiteralAnswer) answer).isCaseSensitive());
         else if (answer instanceof RegexAnswer) root.addProperty("simple_answer", answer.getCorrectAnswers());
         return root;
     }
@@ -29,10 +29,10 @@ public class AnswerSerializer implements JsonSerializer<Answer>, JsonDeserialize
         String type = root.get("type").getAsString();
         switch (type) {
             case "LiteralAnswer":
-                checkForComponents(root, "caseSensitive");
+                checkForComponents(root, "case_sensitive");
                 return new LiteralAnswer(
                     hasPlaceholder ? root.get("placeholder").getAsString() : "",
-                    root.get("caseSensitive").getAsBoolean(),
+                    root.get("case_sensitive").getAsBoolean(),
                     getAnswers(root.get("answers"))
                 );
             case "RegexAnswer":
