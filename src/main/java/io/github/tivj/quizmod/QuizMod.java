@@ -117,8 +117,7 @@ public class QuizMod {
                 this.ticksUntilNextQuestion = this.config.maxTicksUntilReminder;
             else if (this.config.maxTicksUntilReminder > this.config.minTicksUntilReminder)
                 this.ticksUntilNextQuestion = new Random().nextInt(this.config.maxTicksUntilReminder - this.config.minTicksUntilReminder) + this.config.minTicksUntilReminder;
-        }
-        this.ticksUntilNextQuestion = -1;
+        } else this.ticksUntilNextQuestion = -1;
     }
 
     @SubscribeEvent
