@@ -36,6 +36,10 @@ task moveResources {
     }
 }
 
+dependencies {
+    testCompile 'org.apache.commons:commons-csv:1.7'
+}
+
 moveResources.dependsOn processResources
 classes.dependsOn moveResources
 
