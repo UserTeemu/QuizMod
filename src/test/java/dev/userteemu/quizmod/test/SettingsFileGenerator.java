@@ -1,10 +1,10 @@
-package io.github.tivj.quizmod.test;
+package dev.userteemu.quizmod.test;
 
-import io.github.tivj.quizmod.QuizMod;
-import io.github.tivj.quizmod.answer.Answer;
-import io.github.tivj.quizmod.answer.LiteralAnswer;
-import io.github.tivj.quizmod.management.QuizModConfig;
-import io.github.tivj.quizmod.question.Question;
+import dev.userteemu.quizmod.answer.LiteralAnswer;
+import dev.userteemu.quizmod.QuizMod;
+import dev.userteemu.quizmod.answer.Answer;
+import dev.userteemu.quizmod.management.QuizModConfig;
+import dev.userteemu.quizmod.question.Question;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;

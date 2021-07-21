@@ -1,10 +1,10 @@
-package io.github.tivj.quizmod.commands;
+package dev.userteemu.quizmod.commands;
 
-import io.github.tivj.quizmod.QuizMod;
-import io.github.tivj.quizmod.management.QuizModConfig;
-import io.github.tivj.quizmod.answer.LiteralAnswer;
-import io.github.tivj.quizmod.answer.RegexAnswer;
-import io.github.tivj.quizmod.question.Question;
+import dev.userteemu.quizmod.answer.LiteralAnswer;
+import dev.userteemu.quizmod.answer.RegexAnswer;
+import dev.userteemu.quizmod.QuizMod;
+import dev.userteemu.quizmod.management.QuizModConfig;
+import dev.userteemu.quizmod.question.Question;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;

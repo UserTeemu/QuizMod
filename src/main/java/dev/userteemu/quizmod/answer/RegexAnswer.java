@@ -1,4 +1,4 @@
-package io.github.tivj.quizmod.answer;
+package dev.userteemu.quizmod.answer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

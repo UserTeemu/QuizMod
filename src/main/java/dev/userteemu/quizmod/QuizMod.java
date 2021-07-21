@@ -1,13 +1,13 @@
-package io.github.tivj.quizmod;
+package dev.userteemu.quizmod;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.github.tivj.quizmod.commands.QuizModCommand;
-import io.github.tivj.quizmod.answer.Answer;
-import io.github.tivj.quizmod.management.AnswerSerializer;
-import io.github.tivj.quizmod.management.QuizModConfig;
-import io.github.tivj.quizmod.question.Question;
+import dev.userteemu.quizmod.answer.Answer;
+import dev.userteemu.quizmod.commands.QuizModCommand;
+import dev.userteemu.quizmod.management.AnswerSerializer;
+import dev.userteemu.quizmod.management.QuizModConfig;
+import dev.userteemu.quizmod.question.Question;
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentTranslation;

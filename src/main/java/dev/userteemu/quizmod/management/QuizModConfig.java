@@ -1,6 +1,6 @@
-package io.github.tivj.quizmod.management;
+package dev.userteemu.quizmod.management;
 
-import io.github.tivj.quizmod.question.Question;
+import dev.userteemu.quizmod.question.Question;
 
 import java.util.HashSet;
 import java.util.Set;

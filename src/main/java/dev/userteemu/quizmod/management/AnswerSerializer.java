@@ -1,10 +1,10 @@
-package io.github.tivj.quizmod.management;
+package dev.userteemu.quizmod.management;
 
 import com.google.gson.*;
-import io.github.tivj.quizmod.QuizMod;
-import io.github.tivj.quizmod.answer.Answer;
-import io.github.tivj.quizmod.answer.LiteralAnswer;
-import io.github.tivj.quizmod.answer.RegexAnswer;
+import dev.userteemu.quizmod.answer.Answer;
+import dev.userteemu.quizmod.answer.LiteralAnswer;
+import dev.userteemu.quizmod.answer.RegexAnswer;
+import dev.userteemu.quizmod.QuizMod;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;

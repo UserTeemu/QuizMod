@@ -1,6 +1,6 @@
-package io.github.tivj.quizmod.question;
+package dev.userteemu.quizmod.question;
 
-import io.github.tivj.quizmod.answer.Answer;
+import dev.userteemu.quizmod.answer.Answer;
 
 import java.util.Arrays;
 import java.util.List;

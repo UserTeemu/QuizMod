@@ -1,7 +1,7 @@
-package io.github.tivj.quizmod;
+package dev.userteemu.quizmod;
 
-import io.github.tivj.quizmod.answer.Answer;
-import io.github.tivj.quizmod.question.Question;
+import dev.userteemu.quizmod.answer.Answer;
+import dev.userteemu.quizmod.question.Question;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
